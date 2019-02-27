@@ -1,20 +1,7 @@
 module.exports = function getZerosCount(number, base) {
   let p = [...Array(number + 1).keys()].slice(2);
   let factorial = algorithmP(p);
-  let factorialBase = convertFrom10To(factorial, base);
-  let reversed = factorialBase.split("").reverse();
-  let count = 0;
-  let sum = 0;
-  for (let i = 0; i < reversed.length; i++) {
-    sum += parseInt(reversed[i]);
-    if (sum === 0) {
-      count ++;
-    } else {
-      break
-    }
-  }
-    
-  return count;
+  return getCountWhileConvert(factorial, base);
 }
 
 function algorithmP(p) {
@@ -25,19 +12,18 @@ function algorithmP(p) {
   return p[0];
 }
 
-function convertFrom10To(n, base) {
-  let result = '';
-  let abc = getABC(base);
+function getCountWhileConvert(n, base) {
+  let zerosCount = 0;
   let b = Math.floor(n / base);
   let k = n % base;
-  while (b) {
-    result = abc[k] + result;
+  while (k === 0) {
+    zerosCount++;
     n = b;
     b = Math.floor(n / base);
     k = n % base;
   }
-  result = abc[k] + result;
-  return result;
+  
+  return zerosCount;
 }
 
 function halfsOfP(p) {
@@ -49,8 +35,4 @@ function halfsOfP(p) {
     p2 = p. slice(half);
   }
   return [p1, p2];
-}
-
-function getABC(base) {
-  return a = '0123456789abcdefghijklmnopqrstuvwxyz'.split('').slice(0, base);
 }
