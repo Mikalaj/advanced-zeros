@@ -1,15 +1,17 @@
 module.exports = function getZerosCount(number, base) {
-  let p = [...Array(number + 1).keys()].slice(2);
-  let factorial = algorithmP(p);
-  return getCountWhileConvert(factorial, base);
+  if (number > 1) {
+    let factorial = algorithmP(2, number);
+    return getCountWhileConvert(factorial, base);
+  }
+  return 0;
 }
 
-function algorithmP(p) {
-  if (p.length > 1) {
-    let [p1, p2] = halfsOfP(p);
-    return algorithmP(p1) * algorithmP(p2)
+function algorithmP(p1, p2) {
+  if (p2 > p1) {
+    let half = halfsOfP(p1, p2);
+    return algorithmP(p1, half) * algorithmP(half + 1, p2)
   }
-  return p[0];
+  return p1;
 }
 
 function getCountWhileConvert(n, base) {
@@ -26,13 +28,6 @@ function getCountWhileConvert(n, base) {
   return zerosCount;
 }
 
-function halfsOfP(p) {
-  let p1, p2;
-  let pLength = p.length;
-  if (pLength > 1) {
-    let half = pLength % 2 === 1 ? Math.floor(pLength / 2) + 1 : Math.floor(pLength / 2);
-    p1 = p.slice(0, half),
-    p2 = p. slice(half);
-  }
-  return [p1, p2];
+function halfsOfP(p1, p2) {
+  return p1 + Math.floor((p2 - p1) / 2);
 }
